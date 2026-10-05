@@ -1,0 +1,94 @@
+body {
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+    background: #f7efe6;
+    color: #1a1a1a;
+}
+
+/* container central */
+.verificar-container {
+    max-width: 700px;
+    margin: 80px auto;
+    background: #ffffff;
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+}
+
+/* título */
+.verificar-container h2 {
+    font-size: 32px;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+/* textos */
+.verificar-container p {
+    font-size: 15px;
+    line-height: 1.6;
+    color: #555;
+}
+
+/* alertas */
+.alert {
+    padding: 12px 15px;
+    border-radius: 10px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+.alert-danger {
+    background: #ffe5e5;
+    color: #c0392b;
+}
+
+.alert-success {
+    background: #e6f7ea;
+    color: #1e7e34;
+}
+
+/* input */
+.form-control {
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ddd;
+    margin-top: 10px;
+    margin-bottom: 15px;
+    font-size: 14px;
+}
+
+/* botão principal */
+.btn {
+    display: inline-block;
+    padding: 12px 18px;
+    border-radius: 30px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    text-decoration: none;
+    transition: 0.3s;
+}
+
+.btn-success {
+    background: #25D366;
+    color: white;
+}
+
+.btn-success:hover {
+    background: #1ebe5d;
+}
+
+/* botão whatsapp separado */
+.whatsapp-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 20px;
+}
+
+/* destaque código */
+.code-box {
+    font-weight: bold;
+    color: #e8590c;
+}

@@ -1,0 +1,44 @@
+.card{
+    border:none !important;
+    border-radius:25px !important;
+    overflow:hidden;
+    background:#f8f5ef !important;
+    box-shadow:0 6px 18px rgba(0,0,0,.06);
+    transition:.3s;
+    height:100%;
+}
+
+.card{
+    border:none !important;
+    border-radius:25px !important;
+    overflow:hidden;
+    background:#f8f5ef !important;
+    box-shadow:0 6px 18px rgba(0,0,0,.06);
+    transition:.3s;
+    height:100%;
+}
+
+.card-body{
+    padding:25px;
+    display:flex;
+    flex-direction:column;
+    height:100%;
+}
+
+.text-muted{
+    display:block;
+    margin-bottom:20px;
+    word-wrap:break-word;
+}
+
+.btn-primary{
+    background:#171311 !important;
+    border:none !important;
+    border-radius:30px !important;
+    padding:12px 25px !important;
+    font-weight:700;
+    transition:.3s;
+    
+    margin-top:auto; /* joga o botão para baixo */
+    align-self:flex-start;
+}
