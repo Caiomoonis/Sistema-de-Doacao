@@ -34,3 +34,6 @@ writable/session/
 *.njsproj
 *.sln
 *.sw?
+
+# Local environment secrets
+.env

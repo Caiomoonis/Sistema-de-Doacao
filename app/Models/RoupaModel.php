@@ -15,6 +15,8 @@ class RoupaModel extends Model
         'quantidade',
         'bairro',
         'ponto_doacao',
+        'latitude',
+        'longitude',
         'idDoador',
         'imagem',
         'criado_em',

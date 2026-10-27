@@ -59,6 +59,8 @@ class Doador extends BaseController
         'quantidade'    => $this->request->getPost('quantidade'),
         'bairro'        => $this->request->getPost('bairro'),
         'ponto_doacao'  => $this->request->getPost('ponto_doacao'),
+        'latitude'      => $this->request->getPost('latitude') ?: null,
+        'longitude'     => $this->request->getPost('longitude') ?: null,
         'idDoador'      => session()->get('id'),
         'imagem'        => $nomeImagem,
         'criado_em'     => date('Y-m-d H:i:s')

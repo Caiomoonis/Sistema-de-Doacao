@@ -59,3 +59,19 @@ Additionally, make sure that the following extensions are enabled in your PHP:
 - json (enabled by default - don't turn it off)
 - [mysqlnd](http://php.net/manual/en/mysqlnd.install.php) if you plan to use MySQL
 - [libcurl](http://php.net/manual/en/curl.requirements.php) if you plan to use the HTTP\CURLRequest library
+
+## Recursos locais adicionados
+
+- O catálogo permite buscar doações próximas usando a localização do navegador. O visitante escolhe o raio e clica em **Buscar perto de mim**; o navegador solicita permissão de localização. O cálculo usa as coordenadas armazenadas para os pontos públicos de retirada.
+- O formulário de doação permite registrar latitude e longitude do ponto público de retirada. Não use o endereço residencial se o ponto for outro.
+- O painel administrativo local, em `/admin/login`, mostra indicadores e listas para consulta. O botão **Exportar relatório para Excel (CSV)** baixa um arquivo compatível com Excel.
+
+### Configuração local
+
+1. Copie `.env.example` para `.env` e preencha a senha local do MySQL.
+2. Importe `app/Database/sistema_doacao.sql` no MySQL Workbench ou execute esse script no seu cliente MySQL.
+3. Gere um hash para a senha do administrador com `php -r "echo password_hash('sua_senha', PASSWORD_DEFAULT);"` e configure `admin.username` e `admin.passwordHash` no `.env`.
+4. Inicie o site com `php spark serve --host localhost --port 8080`.
+5. Acesse o catálogo em `/cliente/catalogo` e o painel em `/admin/login`.
+
+O arquivo `.env` contém credenciais locais e não deve ser enviado ao Git.

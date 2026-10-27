@@ -43,6 +43,7 @@ $routes->get('cliente/cadastrar', 'Cliente::cadastrar');
 $routes->get('cliente/login', 'Cliente::login');
 $routes->get('cliente/logout', 'Cliente::logout');
 $routes->get('cliente/catalogo', 'Cliente::catalogo');
+$routes->post('cliente/catalogo/filtrar', 'Cliente::catalogo');
 $routes->get('cliente/detalhes/(:num)', 'Cliente::detalhes/$1');    
 $routes->get('cliente', 'Cliente::index');
 $routes->get('cliente/verificar/(:num)', 'Cliente::verificar/$1');
@@ -54,3 +55,10 @@ $routes->post('cliente/interesse/(:num)', 'Cliente::interesse/$1');
 $routes->post('cliente/confirmarCodigo/(:num)', 'Cliente::confirmarCodigo/$1');
 $routes->post('cliente/perfil/salvar', 'Cliente::atualizarPerfil');
 
+
+// ----------- ADMINISTRACAO LOCAL -----------------
+$routes->get('admin/login', 'Admin::login');
+$routes->post('admin/autenticar', 'Admin::autenticar');
+$routes->get('admin', 'Admin::index');
+$routes->get('admin/exportar', 'Admin::exportar');
+$routes->get('admin/sair', 'Admin::sair');

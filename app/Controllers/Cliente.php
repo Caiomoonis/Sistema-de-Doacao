@@ -91,19 +91,50 @@ class Cliente extends BaseController
     public function catalogo()
     {
         $db = \Config\Database::connect();
+        $query = $db->query("SELECT roupas.*, doador.nome AS nome_doador FROM roupas JOIN doador ON doador.id = roupas.idDoador");
+        $roupas = $query->getResultArray();
 
-        $query = $db->query("
-            SELECT roupas.*, doador.nome as nome_doador
-            FROM roupas
-            JOIN doador ON doador.id = roupas.idDoador
-        ");
+        $latitude = trim((string) ($this->request->getPost('latitude') ?? $this->request->getGet('latitude') ?? ''));
+        $longitude = trim((string) ($this->request->getPost('longitude') ?? $this->request->getGet('longitude') ?? ''));
+        $raio = trim((string) ($this->request->getPost('raio') ?? $this->request->getGet('raio') ?? '10'));
+        $erroFiltro = null;
+        $filtroAtivo = $latitude !== '' || $longitude !== '';
 
-        $dados['roupas'] = $query->getResultArray();
+        if ($filtroAtivo) {
+            if (! is_numeric($latitude) || ! is_numeric($longitude) || ! is_numeric($raio)
+                || (float) $latitude < -90 || (float) $latitude > 90
+                || (float) $longitude < -180 || (float) $longitude > 180
+                || (float) $raio <= 0 || (float) $raio > 500) {
+                $erroFiltro = 'Informe latitude, longitude e um raio válido (até 500 km).';
+            } else {
+                $latCentro = (float) $latitude;
+                $lonCentro = (float) $longitude;
+                $raioKm = (float) $raio;
+                $roupas = array_values(array_filter(array_map(function (array $roupa) use ($latCentro, $lonCentro): array {
+                    $lat = $roupa['latitude'] ?? null;
+                    $lon = $roupa['longitude'] ?? null;
+                    if ($lat === null || $lon === null || $lat === '' || $lon === '') {
+                        $roupa['distancia_km'] = null;
+                        return $roupa;
+                    }
+                    $escala = 111.32 * M_PI / 180;
+                    $dx = ($lonCentro - (float) $lon) * cos(deg2rad($latCentro)) * $escala;
+                    $dy = ($latCentro - (float) $lat) * $escala;
+                    $roupa['distancia_km'] = sqrt(($dx * $dx) + ($dy * $dy));
+                    return $roupa;
+                }, $roupas), static fn (array $roupa): bool => $roupa['distancia_km'] !== null && $roupa['distancia_km'] <= $raioKm));
+            }
+        }
 
-        return view('cliente/catalogo', $dados);
+        return view('cliente/catalogo', [
+            'roupas' => $roupas,
+            'latitude' => $latitude,
+            'longitude' => $longitude,
+            'raio' => $raio,
+            'erroFiltro' => $erroFiltro,
+            'filtroAtivo' => $filtroAtivo,
+        ]);
     }
-
-    // -- DETALHES MOSTRA OS DETALHES DE UMA ROUPA
     public function detalhes($id)
     {
         $db = \Config\Database::connect();
