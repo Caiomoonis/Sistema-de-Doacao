@@ -37,12 +37,17 @@ class Cliente extends BaseController
             return redirect()->back()->with('erro', 'Usuário não encontrado');
         }
 
-        if ($cliente['senha'] !== $senha) {
+        if (! senha_confere((string) $senha, $cliente['senha'])) {
             return redirect()->back()->with('erro', 'Senha inválida');
         }
 
         if ($cliente['verificado'] == 0) {
             return redirect()->back()->with('erro', 'Você precisa verificar seu cadastro');
+        }
+
+        // migra senha legada (texto puro) para bcrypt no primeiro login
+        if (senha_precisa_rehash($cliente['senha'])) {
+            $model->update($cliente['id'], ['senha' => senha_hash((string) $senha)]);
         }
 
         session()->set([
@@ -231,7 +236,7 @@ class Cliente extends BaseController
             'email'               => $email,
             'celular'             => $celular,
             'data_nas'            => $dataNas,
-            'senha'               => $senha,
+            'senha'               => senha_hash($senha),
             'codigo_verificacao'  => $codigo,
             'verificado'          => 0
         ]);
@@ -356,7 +361,7 @@ class Cliente extends BaseController
         ];
 
         if ($this->request->getPost('senha')) {
-            $dataCliente['senha'] = $this->request->getPost('senha');
+            $dataCliente['senha'] = senha_hash((string) $this->request->getPost('senha'));
         }
 
         $clienteModel->update($id, $dataCliente);
