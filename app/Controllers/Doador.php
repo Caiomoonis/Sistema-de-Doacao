@@ -117,14 +117,16 @@ public function cadastrarRoupa()
 
         $doador = $model->where('email', $email)->first();
 
-        if ($doador && $doador['senha'] === $senha) {
+        if ($doador && senha_confere((string) $senha, $doador['senha'])) {
 
             // 🔥 BLOQUEIO AQUI
             if ($doador['verificado'] != 1) {
                 return redirect()->back()->with('erro', 'Verifique seu número primeiro');
             }
             $model->update($doador['id'], [
-                'ultimo_acesso' => date('Y-m-d H:i:s')
+                'ultimo_acesso' => date('Y-m-d H:i:s'),
+                // migra senha legada (texto puro) para bcrypt no primeiro login
+                'senha'         => senha_precisa_rehash($doador['senha']) ? senha_hash((string) $senha) : $doador['senha'],
             ]);
 
             session()->set([
@@ -211,7 +213,7 @@ public function cadastrarRoupa()
             'email'              => $email,
             'celular'            => $celular,
             'data_nas'           => $dataNas,
-            'senha'              => $senha,
+            'senha'              => senha_hash($senha),
             'codigo_verificacao' => $codigo,
             'verificado'         => 0
         ]);
@@ -415,7 +417,7 @@ public function cadastrarRoupa()
         ];
 
         if ($this->request->getPost('senha')) {
-            $dataDoador['senha'] = $this->request->getPost('senha');
+            $dataDoador['senha'] = senha_hash((string) $this->request->getPost('senha'));
         }
 
         $doadorModel->update($id, $dataDoador);
