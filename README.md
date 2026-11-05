@@ -75,3 +75,21 @@ Additionally, make sure that the following extensions are enabled in your PHP:
 5. Acesse o catálogo em `/cliente/catalogo` e o painel em `/admin/login`.
 
 O arquivo `.env` contém credenciais locais e não deve ser enviado ao Git.
+
+## API Python (FastAPI)
+
+O projeto também inclui uma API REST em Python que usa o mesmo banco MySQL do site CodeIgniter. Ela é um serviço separado das telas PHP e não cria nem altera as tabelas do banco.
+
+### Iniciar no Windows
+
+```powershell
+cd api
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+python -m pip install -r requirements.txt
+Copy-Item .env.example .env
+# Preencha JWT_SECRET, DATABASE_URL e as credenciais administrativas em api/.env
+uvicorn app.main:app --reload --port 8000
+```
+
+A documentação interativa fica em http://localhost:8000/docs. Para rotas protegidas, faça login em uma rota `/auth/.../login`, copie o `access_token` e use **Authorize** na documentação. Não envie arquivos `.env` ao Git; o `.gitignore` exclui as configurações locais e o ambiente virtual da API.
