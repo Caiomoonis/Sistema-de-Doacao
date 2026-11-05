@@ -28,6 +28,11 @@ abstract class BaseController extends Controller
     // protected $session;
 
     /**
+     * Helpers carregados em todos os controllers (senha_hash, senha_confere...).
+     */
+    protected $helpers = ['senha'];
+
+    /**
      * @return void
      */
     public function initController(RequestInterface $request, ResponseInterface $response, LoggerInterface $logger)
